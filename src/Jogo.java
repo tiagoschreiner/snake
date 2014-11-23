@@ -172,6 +172,8 @@ public class Jogo implements Runnable, KeyListener{
 				/*muda a parede*/
 				parede.mudaParede();
 				atualizaParede(parede.getParede());
+				/*aumenta tamanho cobra*/
+				cobra.aumentaTam();
 			}
 			/*verifica se a cobra bateu na parede*/
 			if(verificaParede(parede.getParede())){
@@ -205,7 +207,6 @@ public class Jogo implements Runnable, KeyListener{
 			
 			lDificInfo.setText("" + info.getDific());
 				
-			cobra.aumentaTam();
 			moveCobra();
 			
 			try {
