@@ -5,7 +5,7 @@ public class Cobra {
 	
 	public Cobra()
 	{
-		tamanho = 1;
+		tamanho = 0;
 		posCabeca = 38;
 	}
 	
@@ -14,9 +14,9 @@ public class Cobra {
 		this.posCabeca = posCabeca;
 	}
 	
-	public void atualizaTam(int tamanho)
+	public void aumentaTam()
 	{
-		this.tamanho = tamanho;
+		this.tamanho ++;
 	}
 	
 	public int getPosicao()

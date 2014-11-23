@@ -205,7 +205,7 @@ public class Jogo implements Runnable, KeyListener{
 			
 			lDificInfo.setText("" + info.getDific());
 				
-			
+			cobra.aumentaTam();
 			moveCobra();
 			
 			try {

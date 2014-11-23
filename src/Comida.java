@@ -14,7 +14,7 @@ public class Comida {
 	{
 		int aux;
 		Random rand = new Random();
-		posicao = rand.nextInt(207);
+		posicao = rand.nextInt(208);
 		aux = rand.nextInt(207);
 		if(aux >= 100 && aux <= 125)
 			tipo = 1;
