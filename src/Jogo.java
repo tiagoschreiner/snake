@@ -147,8 +147,9 @@ public class Jogo implements Runnable, KeyListener{
 	/*thread*/
 	public void run()
 	{
-		int pontos;
+		int pontos, flag = 0;
 		while(true){
+			flag = 0;
 			/*verifica se a cobra comeu a comida*/
 			if(verificaComida()){
 				if(comida.getTipo() == 0)
@@ -158,7 +159,14 @@ public class Jogo implements Runnable, KeyListener{
 				lPontosInfo.setText("" + info.getPontos());
 				lBonusInfo.setText("" + info.getBonus());
 				lDificInfo.setText("" + info.getDific());
-				comida.mudaPosicao();
+				while(flag == 0){
+					comida.mudaPosicao();
+					System.out.println(comida.getPosicao());
+					if(comida.getPosicao() == cobra.getPosicao())
+						flag = 0;
+					else
+						flag = 1;
+				}
 				atualizaComida(comida.getPosicao(), comida.getTipo());
 				
 				/*muda a parede*/
