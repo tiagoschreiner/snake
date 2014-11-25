@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 
 public class Cobra {
 	
-	private int posCabeca, tamanho; 
+	private int posCabeca, tamanho;
+	private ArrayList<Integer> corpo;
 	
 	public Cobra()
 	{
