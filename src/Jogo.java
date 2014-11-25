@@ -161,7 +161,6 @@ public class Jogo implements Runnable, KeyListener{
 				lDificInfo.setText("" + info.getDific());
 				while(flag == 0){
 					comida.mudaPosicao();
-					System.out.println(comida.getPosicao());
 					if(comida.getPosicao() == cobra.getPosicao())
 						flag = 0;
 					else
@@ -186,7 +185,7 @@ public class Jogo implements Runnable, KeyListener{
 			pontos = info.getPontos();
 			
 			if(pontos <= 50){
-				delay = 800;
+				delay = 400;
 				info.setDific(1);
 			}else if(pontos > 50 && pontos <= 100){
 				delay = 650;
@@ -206,7 +205,7 @@ public class Jogo implements Runnable, KeyListener{
 			}
 			
 			lDificInfo.setText("" + info.getDific());
-				
+			
 			moveCobra();
 			
 			try {
@@ -228,7 +227,7 @@ public class Jogo implements Runnable, KeyListener{
 		return false;
 	}
 	
-	/*verifica se a comida foi comida*/
+	/*verifica se a cobra comeu a comida*/
 	public boolean verificaComida()
 	{
 		if(cobra.getPosicao() == comida.getPosicao())
@@ -236,10 +235,11 @@ public class Jogo implements Runnable, KeyListener{
 		else
 			return  false;
 	}
+
 	
 	private void moveCobra()
 	{
-		int i;
+		int i, i2, i3;
 		
 		i = cobra.getPosicao();
 		cubo.get(i).setBackground(Color.BLACK);
