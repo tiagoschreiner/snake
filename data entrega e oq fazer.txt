@@ -1,8 +1,0 @@
-entrega e apresentação do projeto com código fonte : 09/12
-
-criar o jogo snake com as seguintes caracteristicas:
-- pontos
-- bonus
-- nivel dificuldade
-- paredes
-- rank(salvar infos em um arquivo)
