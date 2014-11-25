@@ -8,6 +8,7 @@ public class Jogo implements Runnable, KeyListener{
 
 	private ArrayList<JLabel> cubo;
 	private ArrayList<Integer> limites;
+	private ArrayList<Integer> corpoCobra;
 	private JFrame janela;
 	private JPanel painelJogo, painelInfo;
 	private JLabel lPontos, lPontosInfo, lBonus, lBonusInfo, lTempo, lTempoInfo, lDific, lDificInfo;
@@ -69,6 +70,7 @@ public class Jogo implements Runnable, KeyListener{
 		info = new Info();
 		comida = new Comida();
 		parede = new Parede();
+		corpoCobra = new ArrayList<Integer>();
 		atualizaComida(comida.getPosicao(), comida.getTipo());
 		parede.mudaParede();
 		atualizaParede(parede.getParede());
@@ -171,8 +173,6 @@ public class Jogo implements Runnable, KeyListener{
 				/*muda a parede*/
 				parede.mudaParede();
 				atualizaParede(parede.getParede());
-				/*aumenta tamanho cobra*/
-				cobra.aumentaTam();
 			}
 			/*verifica se a cobra bateu na parede*/
 			if(verificaParede(parede.getParede())){
@@ -239,7 +239,7 @@ public class Jogo implements Runnable, KeyListener{
 	
 	private void moveCobra()
 	{
-		int i, i2, i3;
+		int i, i2;
 		
 		i = cobra.getPosicao();
 		cubo.get(i).setBackground(Color.BLACK);
