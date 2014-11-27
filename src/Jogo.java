@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -8,10 +7,9 @@ public class Jogo implements Runnable, KeyListener{
 
 	private ArrayList<JLabel> cubo;
 	private ArrayList<Integer> limites;
-	private ArrayList<Integer> corpoCobra;
 	private JFrame janela;
 	private JPanel painelJogo, painelInfo;
-	private JLabel lPontos, lPontosInfo, lBonus, lBonusInfo, lTempo, lTempoInfo, lDific, lDificInfo;
+	private JLabel lPontos, lPontosInfo, lBonus, lBonusInfo, lDific, lDificInfo;
 	private Cobra cobra;
 	private Info info;
 	private Comida comida;
@@ -70,7 +68,6 @@ public class Jogo implements Runnable, KeyListener{
 		info = new Info();
 		comida = new Comida();
 		parede = new Parede();
-		corpoCobra = new ArrayList<Integer>();
 		atualizaComida(comida.getPosicao(), comida.getTipo());
 		parede.mudaParede();
 		atualizaParede(parede.getParede());
@@ -116,31 +113,17 @@ public class Jogo implements Runnable, KeyListener{
 		cons.ipady = 10;
 		painelInfo.add(lBonusInfo, cons);
 		
-		lTempo = new JLabel("Tempo");
-		lTempo.setForeground(Color.white);
-		cons.gridx = 0;
-		cons.gridy = 5;
-		cons.ipady = 10;
-		painelInfo.add(lTempo, cons);
-		
-		lTempoInfo = new JLabel("0");
-		lTempoInfo.setForeground(Color.WHITE);
-		cons.gridx = 0;
-		cons.gridy = 6;
-		cons.ipady = 10;
-		painelInfo.add(lTempoInfo, cons);
-		
 		lDific = new JLabel("Dificuldade");
 		lDific.setForeground(Color.WHITE);
 		cons.gridx = 0;
-		cons.gridy = 7;
+		cons.gridy = 5;
 		cons.ipady = 10;
 		painelInfo.add(lDific, cons);
 		
 		lDificInfo = new JLabel("0");
 		lDificInfo.setForeground(Color.WHITE);
 		cons.gridx = 0;
-		cons.gridy = 8;
+		cons.gridy = 6;
 		cons.ipady = 10;
 		painelInfo.add(lDificInfo, cons);
 		
@@ -153,14 +136,17 @@ public class Jogo implements Runnable, KeyListener{
 		while(true){
 			flag = 0;
 			/*verifica se a cobra comeu a comida*/
-			if(verificaComida()){
+			if(cobra.verificaComida( comida.getPosicao() )){
 				if(comida.getTipo() == 0)
 					info.aumentaPonto();
 				else
 					info.aumentaBonus();
+				
 				lPontosInfo.setText("" + info.getPontos());
 				lBonusInfo.setText("" + info.getBonus());
 				lDificInfo.setText("" + info.getDific());
+				
+				/*muda posicao da comida*/
 				while(flag == 0){
 					comida.mudaPosicao();
 					if(comida.getPosicao() == cobra.getPosicao())
@@ -168,15 +154,21 @@ public class Jogo implements Runnable, KeyListener{
 					else
 						flag = 1;
 				}
+				
 				atualizaComida(comida.getPosicao(), comida.getTipo());
 				
 				/*muda a parede*/
 				parede.mudaParede();
 				atualizaParede(parede.getParede());
+
 			}
 			/*verifica se a cobra bateu na parede*/
-			if(verificaParede(parede.getParede())){
-				JOptionPane.showMessageDialog(painelJogo, "Você bateu na parede seu otario", "Terminou",JOptionPane.WARNING_MESSAGE);
+			if(cobra.verificaParede( parede.getParede(), parede.getTamanho() )){
+				
+				if(JOptionPane.showConfirmDialog(janela, "Salvar as informacoes ?") == 0){
+					info.salvaInfo( JOptionPane.showInputDialog("Digite seu nome : ") ); 
+				}
+				
 				Thread.currentThread().interrupt();
 				janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
 				break;
@@ -215,34 +207,11 @@ public class Jogo implements Runnable, KeyListener{
 			}
 		}
 	}
-	
-	/*verifica se a cobra colide com a parede*/
-	public boolean verificaParede(ArrayList<Integer> lparede)
-	{
-		int i;
-		for(i = 0; i < parede.getTamanho(); i++){
-			if(lparede.get(i) == cobra.getPosicao())
-				return true;
-		}
-		return false;
-	}
-	
-	/*verifica se a cobra comeu a comida*/
-	public boolean verificaComida()
-	{
-		if(cobra.getPosicao() == comida.getPosicao())
-			return true;
-		else
-			return  false;
-	}
-
-	
+		
 	private void moveCobra()
 	{
-		int i, i2;
-		
+		int i;
 		i = cobra.getPosicao();
-		cubo.get(i).setBackground(Color.BLACK);
 		
 		if(dirAtual == 'w'){
 			if(limites.contains(i) && (i >= 0) && (i < 16)){/*atingiu a parte de cima*/

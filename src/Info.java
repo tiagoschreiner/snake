@@ -1,12 +1,14 @@
 
-public class Info {
-	/*falta colocar tempo*/
+public class Info{
+	
 	private int pontos, bonus, dific;
+	
 	public Info()
 	{
 		pontos = 0;
 		bonus = 0;
 		dific = 0;
+
 	}
 	
 	public void aumentaPonto()
@@ -37,5 +39,13 @@ public class Info {
 	public int getDific()
 	{
 		return dific;
+	}
+
+	public void salvaInfo(String nome)
+	{
+		/*metodo que implementa a funcao
+		 * de salvar as informacoes do jogo atual
+		 * no arquivo rank.txt*/
+		System.out.println(nome);
 	}
 }
