@@ -146,7 +146,7 @@ public class Jogo implements Runnable, KeyListener{
 				lBonusInfo.setText("" + info.getBonus());
 				lDificInfo.setText("" + info.getDific());
 				
-				/*muda posicao da comida*/
+				/*muda posicao da comida, a comida nao cresce em cima da cabeca da cobra*/
 				while(flag == 0){
 					comida.mudaPosicao();
 					if(comida.getPosicao() == cobra.getPosicao())

@@ -1,14 +1,17 @@
+import java.io.*;
 
-public class Info{
+import javax.swing.JOptionPane;
+
+public class Info implements Serializable {
 	
 	private int pontos, bonus, dific;
+
 	
 	public Info()
 	{
 		pontos = 0;
 		bonus = 0;
 		dific = 0;
-
 	}
 	
 	public void aumentaPonto()
@@ -43,9 +46,17 @@ public class Info{
 
 	public void salvaInfo(String nome)
 	{
-		/*metodo que implementa a funcao
-		 * de salvar as informacoes do jogo atual
-		 * no arquivo rank.txt*/
-		System.out.println(nome);
+		try{
+			PrintWriter file = new PrintWriter(new FileWriter("rank.txt", true), true);
+			
+			file.append(nome + " " + pontos + " " + bonus + " " + dific + " | ");
+			
+			file.close();
+            
+		}
+		catch(IOException ioException){
+			JOptionPane.showMessageDialog(null,"Erro ao abrir arquivo", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 }
