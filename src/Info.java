@@ -2,7 +2,7 @@ import java.io.*;
 
 import javax.swing.JOptionPane;
 
-public class Info implements Serializable {
+public class Info {
 	
 	private int pontos, bonus, dific;
 
@@ -49,7 +49,7 @@ public class Info implements Serializable {
 		try{
 			PrintWriter file = new PrintWriter(new FileWriter("rank.txt", true), true);
 			
-			file.append(nome + " " + pontos + " " + bonus + " " + dific + " | ");
+			file.append(nome + " " + pontos + " " + bonus + " " + dific + "\n");
 			
 			file.close();
             

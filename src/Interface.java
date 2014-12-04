@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.*;
 
 public class Interface implements MouseListener
@@ -85,7 +89,37 @@ public class Interface implements MouseListener
 		janelaRank.setLocation(telaX / 4, telaY / 6);
 		painelRank = new JPanel();
 		painelRank.setBackground(Color.BLACK);
-		janelaRank.add(painelRank);
+		janelaRank.setContentPane(painelRank);
+		
+		try{
+			BufferedReader lerRank = new BufferedReader(new FileReader("rank.txt")); 
+			
+			JTextArea lista = new JTextArea();
+			
+			int i = 1;
+			
+			lerRank.mark(100);
+			while(lerRank.readLine() != null){
+				lerRank.reset();
+				lista.setRows(i);
+				lista.append(lerRank.readLine() + "\n");
+				i++;
+				lerRank.mark(100);
+			}
+			
+			JScrollPane scroll = new JScrollPane(lista);
+			scroll.setPreferredSize(new Dimension(300, 300));
+			
+			painelRank.add(scroll);
+			
+			lerRank.close();
+		}
+		catch(IOException ioException){
+			JOptionPane.showMessageDialog(null,"Nao foi possivel abrir o Rank", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		finally{
+			
+		}
 		
 		janelaRank.setVisible(true);
 		
