@@ -5,34 +5,26 @@ import javax.swing.JOptionPane;
 
 public class Info {
 	
-	private int pontos, bonus, dific;
-
+	private int pontos, dific;
 	
 	public Info()
 	{
 		pontos = 0;
-		bonus = 0;
 		dific = 0;
 	}
 	
-	public void aumentaPonto()
+	public void aumentaPonto(int tipo)
 	{
-		pontos += 10;
-	}
-	
-	public void aumentaBonus()
-	{
-		bonus += 20;
+		/*0 - normal|| 1 - bonus*/
+		if(tipo == 0)
+			pontos += 10;
+		else
+			pontos += 15;
 	}
 	
 	public void setDific(int dific)
 	{
 		this.dific = dific;
-	}
-	
-	public int getBonus()
-	{
-		return bonus;
 	}
 	
 	public int getPontos()
@@ -50,7 +42,7 @@ public class Info {
 		try{
 			PrintWriter file = new PrintWriter(new FileWriter("rank.txt", true), true);
 			
-			file.append(nome + " " + pontos + " " + bonus + " " + dific + "\n");
+			file.append(nome + " " + pontos +  " " + dific + "\n");
 			
 			file.close();
             
@@ -77,7 +69,7 @@ public class Info {
 			lerRank.close();
 		}
 		catch(IOException ioException){
-			JOptionPane.showMessageDialog(null,"Nao foi possivel abrir o Rank", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Nao foi possivel abrir o arquivo", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		return rank;

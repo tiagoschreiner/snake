@@ -138,12 +138,11 @@ public class Jogo implements Runnable, KeyListener{
 			/*verifica se a cobra comeu a comida*/
 			if(cobra.verificaComida( comida.getPosicao() )){
 				if(comida.getTipo() == 0)
-					info.aumentaPonto();
+					info.aumentaPonto(0);
 				else
-					info.aumentaBonus();
+					info.aumentaPonto(1);
 				
 				lPontosInfo.setText("" + info.getPontos());
-				lBonusInfo.setText("" + info.getBonus());
 				lDificInfo.setText("" + info.getDific());
 				
 				/*muda posicao da comida, a comida nao cresce em cima da cabeca da cobra*/
