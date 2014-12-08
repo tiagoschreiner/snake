@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ public class Jogo implements Runnable, KeyListener{
 	private ArrayList<Integer> limites;
 	private JFrame janela;
 	private JPanel painelJogo, painelInfo;
-	private JLabel lPontos, lPontosInfo, lBonus, lBonusInfo, lDific, lDificInfo;
+	private JLabel lPontos, lPontosInfo, lDific, lDificInfo;
 	private Cobra cobra;
 	private Info info;
 	private Comida comida;
@@ -98,31 +99,18 @@ public class Jogo implements Runnable, KeyListener{
 		cons.ipady = 10;
 		painelInfo.add(lPontosInfo, cons);
 		
-		lBonus = new JLabel("Bonus");
-		lBonus.setForeground(Color.WHITE);
-		cons.gridx = 0;
-		cons.gridy = 3;
-		cons.ipady = 10;
-		painelInfo.add(lBonus, cons);
-		
-		lBonusInfo = new JLabel("0");
-		lBonusInfo.setForeground(Color.WHITE);
-		cons.gridx = 0;
-		cons.gridy = 4;
-		cons.ipady = 10;
-		painelInfo.add(lBonusInfo, cons);
 		
 		lDific = new JLabel("Dificuldade");
 		lDific.setForeground(Color.WHITE);
 		cons.gridx = 0;
-		cons.gridy = 5;
+		cons.gridy = 3;
 		cons.ipady = 10;
 		painelInfo.add(lDific, cons);
 		
 		lDificInfo = new JLabel("0");
 		lDificInfo.setForeground(Color.WHITE);
 		cons.gridx = 0;
-		cons.gridy = 6;
+		cons.gridy = 4;
 		cons.ipady = 10;
 		painelInfo.add(lDificInfo, cons);
 		
@@ -131,35 +119,28 @@ public class Jogo implements Runnable, KeyListener{
 	/*thread*/
 	public void run()
 	{
-		int pontos, flag = 0;
+		int pontos;
 		while(true){
-			flag = 0;
+			
+			moveCobra();
 			
 			/*verifica se a cobra comeu a comida*/
 			if(cobra.verificaComida( comida.getPosicao() )){
+				/*verifica tipo de comida que foi comida, 0 normal - 1 bonus*/
 				if(comida.getTipo() == 0)
 					info.aumentaPonto(0);
 				else
 					info.aumentaPonto(1);
 				
-				lPontosInfo.setText("" + info.getPontos());
-				lDificInfo.setText("" + info.getDific());
-				
-				/*muda posicao da comida, a comida nao cresce em cima da cabeca da cobra ou parede*/
-				while(flag == 0){
-					comida.mudaPosicao();
-					if((comida.verificaParede( parede.getParede())) && (comida.verificaCobra( cobra.getPosicao())))
-						flag = 0;
-					else
-						flag = 1;
-				}
+				/*muda posicao da comida*/
+				comida.novaPosicao(parede.getParede(), cobra.getCorpo(), cobra.getPosicao());
 				
 				atualizaComida(comida.getPosicao(), comida.getTipo());
-
+				cobra.aumentaCorpo();
 			}
 			
-			/*verifica se a cobra bateu na parede*/
-			if(cobra.verificaParede( parede.getParede(), parede.getTamanho())){
+			/*verifica se a cobra bateu na parede ou se bateu nela mesma*/
+			if(cobra.verificaColisao(parede.getParede())){
 				
 				if(JOptionPane.showConfirmDialog(janela, "Salvar as informacoes ?") == 0)
 					info.salvaInfo( JOptionPane.showInputDialog("Digite seu nome : ") ); 
@@ -172,19 +153,19 @@ public class Jogo implements Runnable, KeyListener{
 			pontos = info.getPontos();
 			
 			if(pontos <= 50){
-				delay = 100;
+				delay = 600;
 				info.setDific(1);
 			}else if(pontos > 50 && pontos <= 100){
-				delay = 100;
+				delay = 500;
 				info.setDific(2);
 			}else if(pontos > 100 && pontos <= 150){
-				delay = 100;
+				delay = 400;
 				info.setDific(3);
 			}else if(pontos > 150 && pontos <= 200){
-				delay = 100;
+				delay = 300;
 				info.setDific(4);
 			}else if(pontos > 200 && pontos <= 250){
-				delay = 100;
+				delay = 200;
 				info.setDific(5);
 			}else{
 				delay = 100;
@@ -192,8 +173,7 @@ public class Jogo implements Runnable, KeyListener{
 			}
 			
 			lDificInfo.setText("" + info.getDific());
-			
-			moveCobra();
+			lPontosInfo.setText("" + info.getPontos());
 			
 			try {
 				Thread.sleep(delay);
@@ -206,10 +186,23 @@ public class Jogo implements Runnable, KeyListener{
 	/*printa a cobra na nova posicao*/
 	private void moveCobra()
 	{
-		int i;
+		int i, ind, ultimo = 0;
 		i = cobra.getPosicao();
 		
-		cubo.get(i).setBackground(Color.BLACK);
+		ArrayList<Integer> corpo = cobra.getCorpo();
+		
+		ultimo = corpo.get( corpo.size() - 1);
+		
+		if(!(corpo.size() == 1))
+			for(ind = corpo.size() - 1; ind > 0; ind--)
+				corpo.set(ind, corpo.get(ind - 1));
+		
+		corpo.set(0, i);
+		
+		for(ind = 0; ind < corpo.size(); ind++)
+			cubo.get(corpo.get(ind)).setBackground(Color.BLUE);
+
+		cubo.get(ultimo).setBackground(Color.BLACK);
 		
 		if(dirAtual == 'w'){
 			if(limites.contains(i) && (i >= 0) && (i < 16)){/*atingiu a parte de cima*/
@@ -285,7 +278,8 @@ public class Jogo implements Runnable, KeyListener{
 	
 	public void keyTyped(KeyEvent e)
 	{
-		dirAtual = e.getKeyChar();
+		if((e.getKeyChar() == 'd') || (e.getKeyChar() == 'w') || (e.getKeyChar() == 's') || (e.getKeyChar() == 'a'))
+			dirAtual = e.getKeyChar();
 	}
 	
 	public void keyPressed(KeyEvent e){}
