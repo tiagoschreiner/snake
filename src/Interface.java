@@ -96,9 +96,8 @@ public class Interface implements MouseListener
 		
 		lista.setRows(rank.size());
 		
-		for(i = 0; i < rank.size(); i++){
+		for(i = 0; i < rank.size(); i++)
 			lista.append(rank.get(i) + "\n");
-		}
 		
 		JScrollPane scroll = new JScrollPane(lista);
 		scroll.setPreferredSize(new Dimension(300, 300));

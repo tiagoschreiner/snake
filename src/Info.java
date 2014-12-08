@@ -42,7 +42,7 @@ public class Info {
 		try{
 			PrintWriter file = new PrintWriter(new FileWriter("rank.txt", true), true);
 			
-			file.append(nome + " " + pontos +  " " + dific + "\n");
+			file.append(nome + " " + pontos + "\n");
 			
 			file.close();
             

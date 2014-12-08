@@ -7,7 +7,7 @@ public class Cobra {
 	
 	public Cobra()
 	{
-		posCabeca = 38;
+		posCabeca = 3;
 		corpo = new ArrayList<Integer>();
 	}
 	

@@ -69,8 +69,7 @@ public class Jogo implements Runnable, KeyListener{
 		comida = new Comida();
 		parede = new Parede();
 		atualizaComida(comida.getPosicao(), comida.getTipo());
-		parede.mudaParede();
-		atualizaParede(parede.getParede());
+		setParede();
 		
 		cubo.get(cobra.getPosicao()).setBackground(Color.GREEN);
 		dirAtual = 's';
@@ -135,6 +134,7 @@ public class Jogo implements Runnable, KeyListener{
 		int pontos, flag = 0;
 		while(true){
 			flag = 0;
+			
 			/*verifica se a cobra comeu a comida*/
 			if(cobra.verificaComida( comida.getPosicao() )){
 				if(comida.getTipo() == 0)
@@ -145,28 +145,24 @@ public class Jogo implements Runnable, KeyListener{
 				lPontosInfo.setText("" + info.getPontos());
 				lDificInfo.setText("" + info.getDific());
 				
-				/*muda posicao da comida, a comida nao cresce em cima da cabeca da cobra*/
+				/*muda posicao da comida, a comida nao cresce em cima da cabeca da cobra ou parede*/
 				while(flag == 0){
 					comida.mudaPosicao();
-					if(comida.getPosicao() == cobra.getPosicao())
+					if((comida.verificaParede( parede.getParede())) && (comida.verificaCobra( cobra.getPosicao())))
 						flag = 0;
 					else
 						flag = 1;
 				}
 				
 				atualizaComida(comida.getPosicao(), comida.getTipo());
-				
-				/*muda a parede*/
-				parede.mudaParede();
-				atualizaParede(parede.getParede());
 
 			}
+			
 			/*verifica se a cobra bateu na parede*/
-			if(cobra.verificaParede( parede.getParede(), parede.getTamanho() )){
+			if(cobra.verificaParede( parede.getParede(), parede.getTamanho())){
 				
-				if(JOptionPane.showConfirmDialog(janela, "Salvar as informacoes ?") == 0){
+				if(JOptionPane.showConfirmDialog(janela, "Salvar as informacoes ?") == 0)
 					info.salvaInfo( JOptionPane.showInputDialog("Digite seu nome : ") ); 
-				}
 				
 				Thread.currentThread().interrupt();
 				janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
@@ -176,19 +172,19 @@ public class Jogo implements Runnable, KeyListener{
 			pontos = info.getPontos();
 			
 			if(pontos <= 50){
-				delay = 400;
+				delay = 100;
 				info.setDific(1);
 			}else if(pontos > 50 && pontos <= 100){
-				delay = 650;
+				delay = 100;
 				info.setDific(2);
 			}else if(pontos > 100 && pontos <= 150){
-				delay = 500;
+				delay = 100;
 				info.setDific(3);
 			}else if(pontos > 150 && pontos <= 200){
-				delay = 350;
+				delay = 100;
 				info.setDific(4);
 			}else if(pontos > 200 && pontos <= 250){
-				delay = 150;
+				delay = 100;
 				info.setDific(5);
 			}else{
 				delay = 100;
@@ -253,24 +249,23 @@ public class Jogo implements Runnable, KeyListener{
 		}
 	}
 
-	private boolean verificaLimite(int min, int max, int i)
+	/*verifica se atingiu o limite do campo do jogo*/
+	private boolean verificaLimite(int min, int max, int posAtual)
 	{
+		/*min e max são usados para saber o limite a ser verificado
+		 * posAtual usado para compara se chegou no limite ou nao*/
 		for(; min <= max; min++){
-			if(limites.get(min) == i)
+			if(limites.get(min) == posAtual)
 				return true;
 		}
 			return false;
 	}
 	
-	private void atualizaParede(ArrayList<Integer> lparede)
+	private void setParede()
 	{
 		int i;
-		for(i = 0; i < 208; i++)
-			if(cubo.get(i).getBackground() == Color.DARK_GRAY)
-				cubo.get(i).setBackground(Color.BLACK);
-		for(i = 0; i < parede.getTamanho(); i++){
-			cubo.get(lparede.get(i)).setBackground(Color.DARK_GRAY);
-		}
+		for(i = 0; i < parede.getTamanho(); i++)
+			cubo.get(  parede.getParede().get(i)  ).setBackground(Color.GRAY);
 	}
 	
 	private void atualizaComida(int posComida, int tipoComida)

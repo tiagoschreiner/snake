@@ -6,8 +6,7 @@ public class Comida {
 	
 	public Comida()
 	{
-		Random rand = new Random();
-		posicao = rand.nextInt(208);
+		posicao = 32;
 	}
 	
 	public void mudaPosicao()
@@ -29,5 +28,24 @@ public class Comida {
 	public int getTipo()
 	{
 		return  tipo;
+	}
+	
+	public boolean verificaParede(ArrayList<Integer> parede)
+	{
+		int i;
+		for(i = 0; i < parede.size(); i++){
+			if(parede.get(i) == this.posicao)
+				return true;	
+		}
+				
+		return false;
+	}
+	
+	public boolean verificaCobra(int posCobra)
+	{
+		if(posCobra == this.posicao)
+			return true;
+		else
+			return false;
 	}
 }
