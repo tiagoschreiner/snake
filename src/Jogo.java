@@ -29,7 +29,7 @@ public class Jogo implements Runnable, KeyListener{
 		
 		janela = new JFrame("Snake");
 		janela.setLayout(new BorderLayout(2, 1));
-		janela.setSize(telaX - 600, telaY - 250);
+		janela.setSize(700, 500);
 		janela.setLocation(telaX / 4, telaY / 6);
 		
 		painelJogo = new JPanel(new GridLayout(13,20));
@@ -47,7 +47,7 @@ public class Jogo implements Runnable, KeyListener{
 		
 		/*cria os labels*/
 		for(i = 0; i < 208; i += 1){
-			cubo.add(new JLabel("" + i));
+			cubo.add(new JLabel(""));
 			cubo.get(i).setBackground(Color.BLACK);
 			cubo.get(i).setOpaque(true);
 			painelJogo.add(cubo.get(i));
@@ -208,10 +208,13 @@ public class Jogo implements Runnable, KeyListener{
 		}
 	}
 		
+	/*printa a cobra na nova posicao*/
 	private void moveCobra()
 	{
 		int i;
 		i = cobra.getPosicao();
+		
+		cubo.get(i).setBackground(Color.BLACK);
 		
 		if(dirAtual == 'w'){
 			if(limites.contains(i) && (i >= 0) && (i < 16)){/*atingiu a parte de cima*/

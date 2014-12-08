@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -58,5 +59,27 @@ public class Info {
 			JOptionPane.showMessageDialog(null,"Erro ao abrir arquivo", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		
+	}
+	
+	public static ArrayList<String> getRank()
+	{
+		ArrayList<String> rank = new ArrayList<String>();
+		
+		try{
+			BufferedReader lerRank = new BufferedReader(new FileReader("rank.txt")); 
+			
+			lerRank.mark(100);
+			while(lerRank.readLine() != null){
+				lerRank.reset();
+				rank.add(lerRank.readLine());
+				lerRank.mark(100);
+			}
+			lerRank.close();
+		}
+		catch(IOException ioException){
+			JOptionPane.showMessageDialog(null,"Nao foi possivel abrir o Rank", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return rank;
 	}
 }
