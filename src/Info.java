@@ -42,7 +42,7 @@ public class Info {
 		try{
 			PrintWriter file = new PrintWriter(new FileWriter("rank.txt", true), true);
 			
-			file.append(nome + " " + pontos + "\n");
+			file.println(nome + ":" + pontos);
 			
 			file.close();
             
@@ -53,18 +53,21 @@ public class Info {
 		
 	}
 	
-	public static ArrayList<String> getRank()
+	public static ArrayList<Jogador> getRank()
 	{
-		ArrayList<String> rank = new ArrayList<String>();
+		int meio, i, i2, max;
+		String str;
+		Jogador jogador, aux;
+		ArrayList<Jogador> rank = new ArrayList<Jogador>();
 		
 		try{
 			BufferedReader lerRank = new BufferedReader(new FileReader("rank.txt")); 
 			
-			lerRank.mark(100);
-			while(lerRank.readLine() != null){
-				lerRank.reset();
-				rank.add(lerRank.readLine());
-				lerRank.mark(100);
+			while(lerRank.ready()){
+				str = lerRank.readLine();
+				meio = str.indexOf(":");
+				jogador = new Jogador(str.substring(0,meio), Integer.parseInt(str.substring(meio + 1)));
+				rank.add(jogador);
 			}
 			lerRank.close();
 		}
@@ -72,6 +75,21 @@ public class Info {
 			JOptionPane.showMessageDialog(null,"Nao foi possivel abrir o arquivo", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		
+		/*ordena o vetor*/
+		for(i = 0; i < rank.size() - 1; i++){
+			max = i;
+			for(i2 = i + 1; i2 < rank.size(); i2 ++)
+				if(rank.get(i2).getPonto() > rank.get(max).getPonto())
+					max = i2;
+			
+			if(i != max){
+				aux = rank.get(i);
+				rank.set(i, rank.get(max));
+				rank.set(max, aux);
+			}
+		}
+		
 		return rank;
 	}
+
 }

@@ -19,35 +19,7 @@ public class Comida {
 		return  tipo;
 	}
 	
-	private boolean verificaParede(ArrayList<Integer> parede)
-	{
-		int i;
-		for(i = 0; i < parede.size(); i++){
-			if(parede.get(i) == this.posicao)
-				return true;	
-		}
-				
-		return false;
-	}
-	
-	private boolean verificaCobra(int posCobra)
-	{
-		if(posCobra == this.posicao)
-			return true;
-		else
-			return false;
-	}
-	
-	private boolean verificaRabo(ArrayList<Integer> corpoCobra)
-	{
-		int i;
-		for(i = 0; i < corpoCobra.size(); i++)
-			if(corpoCobra.get(i) == this.posicao)
-				return true;
-		
-		return false;
-	}
-	
+	/*junta os metodos privados listados abaixo*/
 	public void novaPosicao(ArrayList<Integer> parede, ArrayList<Integer> corpoCobra, int posCobra)
 	{
 		int flag = 0;
@@ -60,6 +32,7 @@ public class Comida {
 		}
 	}
 	
+	/*escolhe uma nova posicao para a comida*/
 	private void mudaPosicao()
 	{
 		int aux;
@@ -72,4 +45,35 @@ public class Comida {
 			tipo = 0;
 	}
 	
+	/*verifica se a comida nasceu em cima do corpo da cobra*/
+	private boolean verificaRabo(ArrayList<Integer> corpoCobra)
+	{
+		int i;
+		for(i = 0; i < corpoCobra.size(); i++)
+			if(corpoCobra.get(i) == this.posicao)
+				return true;
+		
+		return false;
+	}
+	
+	/*verifica se a comida nasceu em cima da cabeca da cobra*/
+	private boolean verificaCobra(int posCobra)
+	{
+		if(posCobra == this.posicao)
+			return true;
+		else
+			return false;
+	}
+	
+	/*verifica se a comida nasceu em cima da parede*/
+	private boolean verificaParede(ArrayList<Integer> parede)
+	{
+		int i;
+		for(i = 0; i < parede.size(); i++){
+			if(parede.get(i) == this.posicao)
+				return true;	
+		}
+				
+		return false;
+	}
 }

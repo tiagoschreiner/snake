@@ -20,6 +20,7 @@ public class Interface implements MouseListener
 		janelaInicio.setSize(400, 400);
 		janelaInicio.setLocation(telaX / 3,telaY / 4);
 		janelaInicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		
 		criaBotoes();
 		
 		GridBagLayout layout = new GridBagLayout();
@@ -81,6 +82,7 @@ public class Interface implements MouseListener
 	{
 		int telaX = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int telaY = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int i;
 		
 		janelaRank = new JFrame("Rank");
 		janelaRank.setSize(telaX - 750, telaY - 250);
@@ -89,18 +91,30 @@ public class Interface implements MouseListener
 		painelRank.setBackground(Color.BLACK);
 		janelaRank.setContentPane(painelRank);
 		
-		int i;
-		ArrayList<String> rank;
+		ArrayList<Jogador> rank;
 		rank = Info.getRank();
+		
+		String colunas[] = {"Nome","Pontos"};
+		String dados[][] = new String[rank.size()][2];
+		
+		for(i = 0; i < rank.size(); i++){
+			dados[i][0] = rank.get(i).getNome();
+			dados[i][1] = rank.get(i).getPonto() + "";
+		}
+		
+		JTable tabela = new JTable(dados,colunas);
+		
 		JTextArea lista = new JTextArea();
 		
 		lista.setRows(rank.size());
 		
 		for(i = 0; i < rank.size(); i++)
-			lista.append(rank.get(i) + "\n");
+			lista.append(rank.get(i).getNome() + " : " + rank.get(i).getPonto() + "\n");
 		
-		JScrollPane scroll = new JScrollPane(lista);
-		scroll.setPreferredSize(new Dimension(300, 300));
+		JScrollPane scroll = new JScrollPane(tabela);
+		scroll.setPreferredSize(new Dimension(300, telaY - 300));
+		scroll.setOpaque(true);
+		scroll.setBackground(Color.BLACK);
 		
 		painelRank.add(scroll);
 		

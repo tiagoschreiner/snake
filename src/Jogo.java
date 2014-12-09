@@ -48,7 +48,7 @@ public class Jogo implements Runnable, KeyListener{
 		
 		/*cria os labels*/
 		for(i = 0; i < 208; i += 1){
-			cubo.add(new JLabel(""));
+			cubo.add(new JLabel("" + i));
 			cubo.get(i).setBackground(Color.BLACK);
 			cubo.get(i).setOpaque(true);
 			painelJogo.add(cubo.get(i));
@@ -125,7 +125,7 @@ public class Jogo implements Runnable, KeyListener{
 			moveCobra();
 			
 			/*verifica se a cobra comeu a comida*/
-			if(cobra.verificaComida( comida.getPosicao() )){
+			if(cobra.comeu( comida.getPosicao() )){
 				/*verifica tipo de comida que foi comida, 0 normal - 1 bonus*/
 				if(comida.getTipo() == 0)
 					info.aumentaPonto(0);
@@ -135,12 +135,13 @@ public class Jogo implements Runnable, KeyListener{
 				/*muda posicao da comida*/
 				comida.novaPosicao(parede.getParede(), cobra.getCorpo(), cobra.getPosicao());
 				
+				/*atualiza nova posico*/
 				atualizaComida(comida.getPosicao(), comida.getTipo());
 				cobra.aumentaCorpo();
 			}
 			
 			/*verifica se a cobra bateu na parede ou se bateu nela mesma*/
-			if(cobra.verificaColisao(parede.getParede())){
+			if(cobra.colidiu(parede.getParede())){
 				
 				if(JOptionPane.showConfirmDialog(janela, "Salvar as informacoes ?") == 0)
 					info.salvaInfo( JOptionPane.showInputDialog("Digite seu nome : ") ); 
@@ -189,14 +190,20 @@ public class Jogo implements Runnable, KeyListener{
 		int i, ind, ultimo = 0;
 		i = cobra.getPosicao();
 		
+		/*recebe o array q corresponde ao corpo da cobra*/
 		ArrayList<Integer> corpo = cobra.getCorpo();
 		
+		/*pega o ultimo atual para pintar de preto depois*/
 		ultimo = corpo.get( corpo.size() - 1);
 		
+		/*move as posicoes para tras do vetor, depois
+		 * a nova posicao sera colocada no espaco 1 do vetor*/
 		if(!(corpo.size() == 1))
 			for(ind = corpo.size() - 1; ind > 0; ind--)
 				corpo.set(ind, corpo.get(ind - 1));
 		
+		/*seta o espaco 0 do vetor como sendo a primeira parte do corpo
+		 * da cobra que segue a cabeca da cobra*/
 		corpo.set(0, i);
 		
 		for(ind = 0; ind < corpo.size(); ind++)
