@@ -61,7 +61,6 @@ public class Cobra {
 			for(i = 2; i < corpo.size(); i++)
 				if(corpo.get(i) == posCabeca)
 					return true;
-		
 		return false;
 	}
 	

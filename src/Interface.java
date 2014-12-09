@@ -42,9 +42,7 @@ public class Interface implements MouseListener
 		cons.weighty = 0.1;
 		painelInicio.add(bSair, cons);
 		
-		janelaInicio.add(painelInicio);
-		
-		
+		janelaInicio.setContentPane(painelInicio);
 		janelaInicio.setVisible(true);
 	}
 
@@ -91,21 +89,21 @@ public class Interface implements MouseListener
 		painelRank.setBackground(Color.BLACK);
 		janelaRank.setContentPane(painelRank);
 		
+		/*lista dos jogadores ordenados*/
 		ArrayList<Jogador> rank;
 		rank = Info.getRank();
 		
+		/*adiciona os jogadores a uma matriz*/
 		String colunas[] = {"Nome","Pontos"};
 		String dados[][] = new String[rank.size()][2];
-		
 		for(i = 0; i < rank.size(); i++){
 			dados[i][0] = rank.get(i).getNome();
 			dados[i][1] = rank.get(i).getPonto() + "";
 		}
 		
+		/*adiciona */
 		JTable tabela = new JTable(dados,colunas);
-		
 		JTextArea lista = new JTextArea();
-		
 		lista.setRows(rank.size());
 		
 		for(i = 0; i < rank.size(); i++)
@@ -117,7 +115,6 @@ public class Interface implements MouseListener
 		scroll.setBackground(Color.BLACK);
 		
 		painelRank.add(scroll);
-		
 		janelaRank.setVisible(true);
 		
 	}

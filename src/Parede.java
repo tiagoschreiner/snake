@@ -11,7 +11,6 @@ public class Parede {
 		parede = new ArrayList<Integer>();
 		for(i = 0; i < tamanho; i++)
 			parede.add(100 + i);
-		
 	}
 
 	public ArrayList<Integer> getParede()

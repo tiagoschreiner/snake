@@ -62,7 +62,6 @@ public class Info {
 		
 		try{
 			BufferedReader lerRank = new BufferedReader(new FileReader("rank.txt")); 
-			
 			while(lerRank.ready()){
 				str = lerRank.readLine();
 				meio = str.indexOf(":");

@@ -73,7 +73,6 @@ public class Comida {
 			if(parede.get(i) == this.posicao)
 				return true;	
 		}
-				
 		return false;
 	}
 }

@@ -48,7 +48,7 @@ public class Jogo implements Runnable, KeyListener{
 		
 		/*cria os labels*/
 		for(i = 0; i < 208; i += 1){
-			cubo.add(new JLabel("" + i));
+			cubo.add(new JLabel(""));
 			cubo.get(i).setBackground(Color.BLACK);
 			cubo.get(i).setOpaque(true);
 			painelJogo.add(cubo.get(i));
@@ -154,22 +154,22 @@ public class Jogo implements Runnable, KeyListener{
 			pontos = info.getPontos();
 			
 			if(pontos <= 50){
-				delay = 600;
+				delay = 500;
 				info.setDific(1);
 			}else if(pontos > 50 && pontos <= 100){
-				delay = 500;
+				delay = 400;
 				info.setDific(2);
 			}else if(pontos > 100 && pontos <= 150){
-				delay = 400;
+				delay = 300;
 				info.setDific(3);
 			}else if(pontos > 150 && pontos <= 200){
-				delay = 300;
+				delay = 200;
 				info.setDific(4);
 			}else if(pontos > 200 && pontos <= 250){
-				delay = 200;
+				delay = 100;
 				info.setDific(5);
 			}else{
-				delay = 100;
+				delay = 50;
 				info.setDific(6);
 			}
 			
@@ -196,14 +196,10 @@ public class Jogo implements Runnable, KeyListener{
 		/*pega o ultimo atual para pintar de preto depois*/
 		ultimo = corpo.get( corpo.size() - 1);
 		
-		/*move as posicoes para tras do vetor, depois
-		 * a nova posicao sera colocada no espaco 1 do vetor*/
 		if(!(corpo.size() == 1))
 			for(ind = corpo.size() - 1; ind > 0; ind--)
 				corpo.set(ind, corpo.get(ind - 1));
 		
-		/*seta o espaco 0 do vetor como sendo a primeira parte do corpo
-		 * da cobra que segue a cabeca da cobra*/
 		corpo.set(0, i);
 		
 		for(ind = 0; ind < corpo.size(); ind++)
@@ -285,8 +281,21 @@ public class Jogo implements Runnable, KeyListener{
 	
 	public void keyTyped(KeyEvent e)
 	{
-		if((e.getKeyChar() == 'd') || (e.getKeyChar() == 'w') || (e.getKeyChar() == 's') || (e.getKeyChar() == 'a'))
-			dirAtual = e.getKeyChar();
+		if(e.getKeyChar() == 'd')
+			if(!(dirAtual == 'a'))
+				dirAtual = 'd';
+		 
+		if(e.getKeyChar() == 'w')
+			if(!(dirAtual == 's'))
+				dirAtual = 'w';
+		
+		if(e.getKeyChar() == 's')
+			if(!(dirAtual == 'w'))
+				dirAtual = 's';
+		
+		if(e.getKeyChar() == 'a')
+			if(!(dirAtual == 'd'))
+				dirAtual = 'a';
 	}
 	
 	public void keyPressed(KeyEvent e){}
